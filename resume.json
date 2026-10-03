@@ -1,0 +1,96 @@
+{
+  "basics": {
+    "name": "Muhammad Mesum",
+    "label": "BSCS Student",
+    "headline": "I study full-time and am trying to become a Cyber Security Aspirant.",
+    "summary": "Computer Science Student based in Karachi, Pakistan.",
+    "location": {
+      "country": "Pakistan",
+      "countryCode": "PK",
+      "region": "Karachi"
+    },
+    "email": "muhammadmesumganatra@gmail.com",
+    "availability": "Currently part of GU Tech since June 2026",
+    "leadershipNote": "A team player and a born leader, my sense of responsibility is acknowledged by my professors.",
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "Muhammad Mesum",
+        "url": "https:/linkedin.com/in/muhammad-mesum-7a14b9438",
+        "icon": "fa-brands fa-linkedin-in"
+      },
+      {
+        "network": "GitHub",
+        "username": "mesum-ganatra",
+        "url": "https://github.com/mesum-ganatra",
+        "icon": "fa-brands fa-github"
+      }
+    ]
+  },
+  "about": {
+    "intro": [
+      "I have completed O Level's and A Level's. Currently pursuing BS Computer Science degree in Gu Tech. I'm building strong foundation in programming, with particular interest in Design Thinking and using technolgy to solve real-world problems."
+    ],
+    "strengths": [
+      "Strong interest in learning and improving"
+    ]
+  },
+  "skills": [
+    {
+      "category": "Languages",
+      "items": [
+        "Python",
+        "C"       
+      ]
+    }
+  ],
+  "certificates": [
+    {
+    "name": "Odoo Technical Bootcamp",
+    "issuer": "Odoo",
+    "image": "certificates/odoo-bootcamp.png",
+    "url": "certificates/odoo-bootcamp.pdf"
+    }
+  ],
+  "education": [
+      {
+      "institution": "GU Tech",
+      "area": "Computer Science",
+      "studyType": "BSCS",
+      "startDate": "2026",
+      "endDate": "2030"
+    },
+      {
+      "institution": "Cambridge Assessment International Education (CAIE)",
+      "area": "Pre-Engineering",
+      "studyType": "A Levels",
+      "detailsLabel": "Subjects",
+      "details": [
+      "Physics",
+      "Chemistry",
+      "Mathematics"
+  ],
+  "startDate": "2023",
+  "endDate": "2025"
+  },
+
+     {
+      "institution": "Cambridge Assessment International Education (CAIE)",
+      "area": "Genersl Science",
+      "studyType": "O Levels",
+      "startDate": "2021",
+      "endDate": "2023"
+    }
+  
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Fluent"
+    },
+    {
+      "language": "Urdu",
+      "fluency": "Native"
+    }
+  ]
+}

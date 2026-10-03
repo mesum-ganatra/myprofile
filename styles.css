@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Custom Styles & Visual Effects - Personal Portfolio
+   ========================================================================== */
+
+/* Custom CSS Variables */
+:root {
+  --primary-glow: rgba(6, 182, 212, 0.25);
+  --secondary-glow: rgba(139, 92, 246, 0.2);
+  --card-bg-dark: rgba(15, 23, 42, 0.65);
+  --card-border-dark: rgba(255, 255, 255, 0.08);
+  --card-bg-light: rgba(255, 255, 255, 0.75);
+  --card-border-light: rgba(0, 0, 0, 0.08);
+}
+
+/* Base Smooth Scrolling & Selection */
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: rgba(6, 182, 212, 0.3);
+  color: #38bdf8;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 9999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 9999px;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
+}
+
+/* Glassmorphism Surface Base */
+.glass-nav {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-panel {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Mode Panels */
+html.dark .glass-panel {
+  background-color: var(--card-bg-dark);
+  border: 1px solid var(--card-border-dark);
+}
+
+html.dark .glass-nav {
+  background-color: rgba(11, 17, 33, 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Light Mode Panels */
+html:not(.dark) .glass-panel {
+  background-color: var(--card-bg-light);
+  border: 1px solid var(--card-border-light);
+}
+
+html:not(.dark) .glass-nav {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Interactive Card Hover & Glow */
+.interactive-card {
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-3px);
+}
+
+html.dark .interactive-card:hover {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.2), 0 0 15px -3px rgba(6, 182, 212, 0.15);
+}
+
+html:not(.dark) .interactive-card:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 12px 28px -8px rgba(6, 182, 212, 0.18), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Ambient Ambient Background Lights */
+.ambient-glow-cyan {
+  position: absolute;
+  filter: blur(100px);
+  opacity: 0.22;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+}
+
+.ambient-glow-purple {
+  position: absolute;
+  filter: blur(120px);
+  opacity: 0.18;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+}
+
+html:not(.dark) .ambient-glow-cyan {
+  opacity: 0.12;
+}
+
+html:not(.dark) .ambient-glow-purple {
+  opacity: 0.08;
+}
+
+/* Gradient Text Enhancements */
+.gradient-text-primary {
+  background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 40%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-accent {
+  background: linear-gradient(135deg, #2dd4bf 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subtle Pulse for Availability Dot */
+@keyframes status-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.45;
+  }
+}
+
+.status-dot-pulse {
+  animation: status-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Education Timeline Vertical Styling */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -29px;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid #06b6d4;
+  background-color: #0f172a;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+html:not(.dark) .timeline-item::before {
+  background-color: #ffffff;
+}
+
+.timeline-item:hover::before {
+  transform: scale(1.3);
+  box-shadow: 0 0 12px #06b6d4;
+  background-color: #06b6d4;
+}
+
+/* Skill Chip Animation */
+.skill-chip {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-chip:hover {
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Print Stylesheet (@media print)
+   ========================================================================== */
+@media print {
+  @page {
+    margin: 12mm 15mm;
+    size: auto;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    font-size: 10.5pt !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Hide navigation, buttons, toggles, and decorative effects */
+  header,
+  nav,
+  #theme-toggle,
+  .no-print,
+  .print-btn,
+  .ambient-glow-cyan,
+  .ambient-glow-purple,
+  #mobile-menu,
+  #menu-btn,
+  .hero-action-buttons,
+  #back-to-top {
+    display: none !important;
+  }
+
+  /* Reset panels for flat, clean high-contrast printing */
+  .glass-panel,
+  .interactive-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: none !important;
+    border-radius: 6px !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 12px !important;
+    padding: 14px !important;
+  }
+
+  /* Text color resets for readability */
+  .gradient-text-primary,
+  .gradient-text-accent {
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    -webkit-text-fill-color: #0f172a !important;
+    color: #0f172a !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827 !important;
+    page-break-after: avoid;
+  }
+
+  p, span, li {
+    color: #374151 !important;
+  }
+
+  a {
+    color: #0f766e !important;
+    text-decoration: underline !important;
+  }
+
+  /* Clean timeline presentation */
+  .timeline-container {
+    border-left: 2px solid #94a3b8 !important;
+  }
+
+  .timeline-item::before {
+    background-color: #0f766e !important;
+    border-color: #0f766e !important;
+    box-shadow: none !important;
+  }
+
+  /* Print chip styles */
+  .skill-chip {
+    border: 1px solid #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    color: #1e293b !important;
+    box-shadow: none !important;
+  }
+
+  /* Print certificates cleanly */
+  .certificate-card img {
+    max-height: 120px !important;
+    object-fit: contain !important;
+  }
+
+  /* Avoid cutting sections in half */
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  /* Remove fixed padding/margins suited for desktop screens */
+  main {
+    padding-top: 0 !important;
+  }
+}
