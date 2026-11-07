@@ -1,5 +1,8 @@
 // Public blog list: cards, search, tag filter, "Load more" after 9 posts.
-import { fetchPublishedPosts, formatDate, escapeHtml, cloudinaryUrl } from './blog-data.js';
+import { formatDate, escapeHtml, cloudinaryUrl } from './blog-utils.js';
+
+// Start downloading Firebase right away, but do not wait for it before painting cached posts.
+const dataModule = import('./blog-data.js');
 
 const PAGE = 9;
 const $ = (id) => document.getElementById(id);
@@ -56,13 +59,36 @@ $('tag-filter').addEventListener('click', (e) => {
 $('search').addEventListener('input', (e) => { term = e.target.value.trim().toLowerCase(); shown = PAGE; render(); });
 $('load-more').addEventListener('click', () => { shown += PAGE; render(); });
 
-(async function init() {
+// Repeat visits: show the last-seen list instantly, then refresh from Firestore.
+// Only public (published) data is stored, and a fresh result always replaces it.
+const CACHE_KEY = 'blog_posts_v1';
+function readCache() {
+  try { const c = JSON.parse(localStorage.getItem(CACHE_KEY)); return Array.isArray(c) && c.length ? c : null; } catch (e) { return null; }
+}
+function writeCache(list) {
   try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(list.map((p) => ({
+      id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt, tags: p.tags,
+      coverImage: p.coverImage, publishedMs: p.publishedMs, readingTime: p.readingTime,
+    }))));
+  } catch (e) { /* storage full or blocked: ignore */ }
+}
+
+(async function init() {
+  const cached = readCache();
+  if (cached) { posts = cached; renderTags(); render(); }
+  try {
+    const { fetchPublishedPosts } = await dataModule;
     posts = await fetchPublishedPosts();
+    writeCache(posts);
     renderTags();
     render();
   } catch (err) {
     console.error(err);
-    $('state').textContent = 'Could not load posts right now. Please try again later.';
+    if (!cached) {
+      $('list').innerHTML = '';
+      $('state').textContent = 'Could not load posts right now. Please try again later.';
+      $('state').classList.remove('hidden');
+    }
   }
 })();

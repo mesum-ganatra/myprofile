@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-blog-css",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Builds assets/blog-tailwind.css, the small prebuilt Tailwind stylesheet used by the public blog pages (replaces the slow Tailwind CDN script).",
+  "scripts": {
+    "build": "tailwindcss -c tailwind.config.js -i input.css -o ../../assets/blog-tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

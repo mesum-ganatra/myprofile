@@ -207,4 +207,12 @@ A static blog with a private admin dashboard and rich editor. The site stays pla
 cd tools/editor && npm install && npm run build
 ```
 
+**Rebuild the blog stylesheet** (only if you add new Tailwind classes to `blog.html`, `post.html` or the blog scripts). The public blog uses a small prebuilt stylesheet instead of the slow Tailwind CDN script:
+
+```bash
+cd tools/css && npm install && npm run build
+```
+
+**Speed notes:** blog pages use the lightweight Firestore Lite library, preload their files, show placeholder rows while loading, and remember the last-seen posts on the visitor's browser for instant repeat visits (a fresh copy always replaces it).
+
 **Known limits:** WhatsApp/Facebook show the generic site preview for shared posts (fixing it needs a server function); deleting a post does not delete its Cloudinary images.
