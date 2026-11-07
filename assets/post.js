@@ -1,5 +1,8 @@
 // Public post page: finds the post by slug, renders sanitized HTML, sets SEO tags.
-import { fetchPostBySlug, formatDate, escapeHtml, cloudinaryUrl, SITE } from './blog-data.js';
+import { formatDate, escapeHtml, cloudinaryUrl, SITE } from './blog-utils.js';
+
+// Start downloading Firebase right away, but do not wait for it before painting a cached post.
+const dataModule = import('./blog-data.js');
 
 const $ = (id) => document.getElementById(id);
 
@@ -15,6 +18,7 @@ function setMeta(selector, attr, value) {
 }
 
 function notFound() {
+  $('article').classList.add('hidden');
   document.title = 'Post not found | Muhammad Mesum';
   setMeta('meta[name="robots"]', 'content', 'noindex');
   $('state').innerHTML = '<h1 class="text-2xl font-bold mb-2">Post not found</h1><p>This post does not exist or is not published.</p><p class="mt-4"><a class="text-cyan-500 underline" href="/blog">Back to the blog</a></p>';
@@ -45,10 +49,9 @@ function seo(post, url) {
     author: { '@type': 'Person', name: 'Muhammad Mesum' },
   };
   if (image) ld.image = image;
-  const s = document.createElement('script');
-  s.type = 'application/ld+json';
+  let s = document.getElementById('ld-post');
+  if (!s) { s = document.createElement('script'); s.id = 'ld-post'; s.type = 'application/ld+json'; document.head.appendChild(s); }
   s.textContent = JSON.stringify(ld);
-  document.head.appendChild(s);
 }
 
 function render(post) {
@@ -56,7 +59,7 @@ function render(post) {
   seo(post, url);
   const html = window.sanitizeHtml(post.contentHtml || '');
   const cover = post.coverImage && post.coverImage.url
-    ? `<img class="post-cover" src="${escapeHtml(cloudinaryUrl(post.coverImage.url, 1200))}" alt="${escapeHtml(post.coverImage.alt || '')}" />` : '';
+    ? `<img class="post-cover" src="${escapeHtml(cloudinaryUrl(post.coverImage.url, 1200))}" alt="${escapeHtml(post.coverImage.alt || '')}" fetchpriority="high" decoding="async" />` : '';
   const tags = (post.tags || []).map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`).join('');
   const enc = encodeURIComponent(url);
   const text = encodeURIComponent(post.title);
@@ -90,15 +93,32 @@ function render(post) {
   $('article').classList.remove('hidden');
 }
 
+// Repeat visits: show the last-seen copy instantly, then confirm with Firestore.
+// If the post was unpublished meanwhile, the fresh result removes it again.
+const cacheKey = (slug) => 'blog_post_v1:' + slug;
+function readCache(slug) {
+  try { return JSON.parse(localStorage.getItem(cacheKey(slug))); } catch (e) { return null; }
+}
+function writeCache(slug, post) {
+  try { localStorage.setItem(cacheKey(slug), JSON.stringify(post)); } catch (e) { /* ignore */ }
+}
+function dropCache(slug) {
+  try { localStorage.removeItem(cacheKey(slug)); } catch (e) { /* ignore */ }
+}
+
 (async function init() {
   const slug = decodeURIComponent(location.pathname.replace(/^\/blog\/?/, '').split('/')[0] || '');
   if (!slug) return notFound();
+  const cached = readCache(slug);
+  if (cached && cached.slug === slug) render(cached);
   try {
+    const { fetchPostBySlug } = await dataModule;
     const post = await fetchPostBySlug(slug);
-    if (!post) return notFound();
-    render(post);
+    if (!post) { dropCache(slug); return notFound(); }
+    writeCache(slug, post);
+    if (!cached || cached.updatedMs !== post.updatedMs || cached.contentHtml !== post.contentHtml) render(post);
   } catch (err) {
     console.error(err);
-    $('state').textContent = 'Could not load this post right now. Please try again later.';
+    if (!cached) $('state').textContent = 'Could not load this post right now. Please try again later.';
   }
 })();

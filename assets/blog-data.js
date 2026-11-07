@@ -1,11 +1,10 @@
 // Firestore reads used by the public blog pages.
+// Uses the Firestore *Lite* SDK: read-only, a fraction of the size of the full SDK, and no
+// live connection to set up, so the blog loads faster. (Admin pages use the full SDK.)
 import { app } from './firebase-config.js';
 import {
   getFirestore, collection, query, where, getDocs, limit,
-} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
-
-// Public site address, used for canonical URLs and share links.
-export const SITE = 'https://myprofile-ten-rho.vercel.app';
+} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-lite.js';
 
 const db = getFirestore(app);
 
@@ -34,19 +33,4 @@ export async function fetchPostBySlug(slug) {
   return snap.empty ? null : normalize(snap.docs[0]);
 }
 
-export function formatDate(ms) {
-  if (!ms) return '';
-  return new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
-export function escapeHtml(str) {
-  return String(str ?? '')
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-}
-
-// Adds Cloudinary delivery options (auto format/quality + width limit) to an image URL.
-export function cloudinaryUrl(url, width) {
-  if (!url || !/^https:\/\/res\.cloudinary\.com\//.test(url)) return url || '';
-  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width}/`);
-}
+export { SITE, formatDate, escapeHtml, cloudinaryUrl } from './blog-utils.js';
