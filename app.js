@@ -584,6 +584,9 @@ function renderPortfolio(data) {
     footerContainer.classList.remove('hidden');
   }
 
+  // Blog link (added after the portfolio sections)
+  activeNavItems.push({ label: 'Blog', href: '/blog' });
+
   // Render navigation links dynamically based on populated sections
   renderNavigation(activeNavItems);
 

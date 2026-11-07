@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin login</title>
+  <script>(function(){var t=null;try{t=localStorage.getItem('portfolio_theme');}catch(e){}document.documentElement.classList.toggle('dark',t!=='light');})();</script>
+  <link rel="stylesheet" href="/assets/admin/admin.css" />
+</head>
+<body>
+  <main class="login-box card">
+    <h1>Admin login</h1>
+    <form id="form" novalidate>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required /></div>
+      <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required /></div>
+      <div id="err" class="error" role="alert"></div>
+      <button id="go" class="btn primary" type="submit" style="width:100%;justify-content:center">Sign in</button>
+    </form>
+  </main>
+  <script type="module">
+    import { auth, isAdminUser } from '/assets/admin/guard.js';
+    import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+    const err = document.getElementById('err');
+    const btn = document.getElementById('go');
+    const GENERIC = 'Invalid email or password.';
+    const unsub = onAuthStateChanged(auth, (u) => { unsub(); if (isAdminUser(u)) location.replace('/admin'); });
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      const email = document.getElementById('email').value.trim();
+      const pass = document.getElementById('password').value;
+      if (!email || !pass) { err.textContent = GENERIC; return; }
+      btn.disabled = true; btn.textContent = 'Signing in...';
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        if (!isAdminUser(cred.user)) { await signOut(auth); throw new Error('not admin'); }
+        location.replace('/admin');
+      } catch (ex) {
+        err.textContent = GENERIC;
+        btn.disabled = false; btn.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>

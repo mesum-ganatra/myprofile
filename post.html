@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Muhammad Mesum</title>
+  <meta name="description" content="" />
+  <link rel="canonical" href="https://myprofile-ten-rho.vercel.app/blog" />
+  <script>
+    (function () {
+      var t = null; try { t = localStorage.getItem('portfolio_theme'); } catch (e) {}
+      document.documentElement.classList.toggle('dark', t !== 'light');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] } } } };
+  </script>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/assets/blog.css" />
+  <link rel="stylesheet" href="/assets/prose.css" />
+</head>
+<body class="bg-slate-50 dark:bg-[#090d16] text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300 relative overflow-x-hidden selection:bg-cyan-500/30">
+  <div class="ambient-glow-cyan top-0 left-1/4 w-96 h-96 -translate-y-1/2"></div>
+  <div class="ambient-glow-purple top-1/3 right-10 w-96 h-96"></div>
+
+  <header class="sticky top-0 z-50 glass-nav transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 group">
+        <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-teal-400 flex items-center justify-center text-white text-sm font-extrabold shadow-sm"><i class="fa-solid fa-code text-xs"></i></span>
+        <span id="nav-brand-text" class="group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">Muhammad Mesum</span>
+      </a>
+      <nav aria-label="Main Navigation" class="hidden md:flex items-center gap-1 lg:gap-2">
+        <div id="desktop-nav-links" class="flex items-center gap-1 text-sm font-medium text-slate-600 dark:text-slate-300"></div>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="theme-toggle" type="button" aria-label="Toggle Theme" class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition-colors border border-slate-300/60 dark:border-slate-700/60"><i id="theme-toggle-icon" class="fa-solid fa-moon text-sm"></i></button>
+        <button id="mobile-menu-btn" type="button" aria-label="Open mobile menu" aria-expanded="false" class="md:hidden w-9 h-9 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition-colors"><i class="fa-solid fa-bars text-base"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden glass-nav border-t border-slate-200 dark:border-slate-800 px-4 py-3 space-y-1">
+      <div id="mobile-nav-links" class="flex flex-col gap-1 text-sm font-medium text-slate-600 dark:text-slate-300"></div>
+    </div>
+  </header>
+
+  <main class="blog-wrap">
+    <a href="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-cyan-500 mb-6"><i class="fa-solid fa-arrow-left text-xs"></i> All posts</a>
+    <div id="state" class="blog-state">Loading post...</div>
+    <article id="article" class="hidden"></article>
+  </main>
+
+  <footer id="footer-container" class="hidden border-t border-slate-200 dark:border-slate-800/80 bg-slate-100/60 dark:bg-slate-900/60 glass-panel py-10 mt-10"></footer>
+
+  <script src="/assets/sanitize-bundle.js"></script>
+  <script src="/assets/site-shell.js"></script>
+  <script type="module" src="/assets/post.js"></script>
+</body>
+</html>

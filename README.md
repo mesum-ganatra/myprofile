@@ -178,3 +178,33 @@ You can generate a PDF version of your resume anytime:
    - Ensure **Background graphics** is checked.
    - Click **Save**.
 The print stylesheet will automatically strip out all navigation bars, dark backgrounds, theme toggles, and buttons to give you a pristine, high-contrast document.
+
+---
+
+## 📝 Blog & Admin CMS
+
+A static blog with a private admin dashboard and rich editor. The site stays plain HTML/CSS/JS (no framework, no serverless functions): everything backend-like is **Firebase** (login + Firestore data) and **Cloudinary** (images).
+
+| URL | What it is |
+|---|---|
+| `/blog` | Public list: search, tag filter, "Load more" after 9 posts |
+| `/blog/<slug>` | A published post (SEO tags, share buttons) |
+| `/admin/login` | Admin sign-in (Firebase email + password, one admin UID) |
+| `/admin` | Dashboard: all posts, counts, search, publish/unpublish, delete |
+| `/admin/editor` | Rich editor (Tiptap): headings, lists, tables, code, images, YouTube, preview |
+
+**Security:** only the admin UID can write; the public can read only `published` posts (see `firestore.rules`, which is a reference copy: live rules are edited in the Firebase console). Post HTML is sanitized with DOMPurify on save and on display. Admin pages send `X-Robots-Tag: noindex`.
+
+**Keep private:** the Cloudinary upload preset name (`assets/cloudinary-config.js`) is unsigned, so anyone who learns it can upload to the account. Firebase web config values are public by design.
+
+**Add another admin:** add their UID to `ADMIN_UIDS` in `assets/admin/guard.js` **and** to the list in the Firestore rules.
+
+**Custom domain:** add it in Vercel and under Firebase → Authentication → Settings → Authorized domains, then update `SITE` in `assets/blog-data.js`.
+
+**Rebuild the bundles** (only if you change `tools/editor/src` or upgrade a package):
+
+```bash
+cd tools/editor && npm install && npm run build
+```
+
+**Known limits:** WhatsApp/Facebook show the generic site preview for shared posts (fixing it needs a server function); deleting a post does not delete its Cloudinary images.
