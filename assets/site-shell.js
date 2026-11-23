@@ -86,16 +86,11 @@
         '" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 border border-slate-300/50 dark:border-slate-700/60 hover:text-cyan-500 dark:hover:text-cyan-400 hover:border-cyan-500/60 hover:-translate-y-0.5 transition-all"><i class="' +
         esc(p.icon || 'fa-solid fa-link') + ' text-sm"></i></a>';
     }).join('');
-    var links = NAV.map(function (it) {
-      return '<a href="' + it.href + '" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">' + it.label + '</a>';
-    }).join('');
     footer.innerHTML = '<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">' +
-      '<div class="grid grid-cols-1 md:grid-cols-3 gap-8">' +
+      '<div class="grid grid-cols-1 md:grid-cols-2 gap-8">' +
         '<div class="space-y-2"><p class="text-lg font-bold text-slate-900 dark:text-white">' + esc(name || 'Portfolio') + '</p>' +
           (b.label ? '<p class="text-sm text-slate-500 dark:text-slate-400">' + esc(b.label) + (b.location && b.location.region ? ' &middot; ' + esc(b.location.region) : '') + '</p>' : '') +
           (b.email ? '<a href="mailto:' + esc(b.email) + '" class="text-sm text-cyan-600 dark:text-cyan-400 hover:underline break-all">' + esc(b.email) + '</a>' : '') + '</div>' +
-        '<div class="space-y-2"><p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pages</p>' +
-          '<div class="flex flex-wrap md:flex-col gap-x-5 gap-y-1.5 text-sm text-slate-700 dark:text-slate-300">' + links + '</div></div>' +
         '<div class="space-y-3"><p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Connect</p>' +
           '<div class="flex flex-wrap gap-2.5">' + social + '</div></div>' +
       '</div>' +

@@ -133,40 +133,15 @@ function renderNavigation() {
   mobileNavContainer.appendChild(mContact);
 }
 
-// Footer: brand, page links, social icons
+// Footer (home page): copyright and a back-to-top link. Email and social links live in Get in Touch.
 function renderFooter(data) {
   const footerContainer = document.getElementById('footer-container');
   if (!footerContainer) return;
-  const b = data.basics || {};
-  const nameStr = escapeHTML(b.name || 'Portfolio');
-  const profiles = Array.isArray(b.profiles) ? b.profiles : [];
-  const social = profiles.map(p => `
-    <a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(p.network || 'Social')}" title="${escapeHTML(p.network || '')}" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 border border-slate-300/50 dark:border-slate-700/60 hover:text-cyan-500 dark:hover:text-cyan-400 hover:border-cyan-500/60 hover:-translate-y-0.5 transition-all">
-      <i class="${escapeHTML(p.icon || 'fa-solid fa-link')} text-sm"></i>
-    </a>`).join('');
-  const links = [['Home', '/'], ['Projects', '/projects.html'], ['Resume', '/resume.html'], ['Coding', '/coding.html'], ['Blog', '/blog']]
-    .map(([l, h]) => `<a href="${h}" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">${l}</a>`).join('');
-
+  const nameStr = escapeHTML((data.basics || {}).name || 'Portfolio');
   footerContainer.innerHTML = `
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="space-y-2">
-          <p class="text-lg font-bold text-slate-900 dark:text-white">${nameStr}</p>
-          ${b.label ? `<p class="text-sm text-slate-500 dark:text-slate-400">${escapeHTML(b.label)}${b.location?.region ? ' &middot; ' + escapeHTML(b.location.region) : ''}</p>` : ''}
-          ${b.email ? `<a href="mailto:${escapeHTML(b.email)}" class="text-sm text-cyan-600 dark:text-cyan-400 hover:underline break-all">${escapeHTML(b.email)}</a>` : ''}
-        </div>
-        <div class="space-y-2">
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pages</p>
-          <div class="flex flex-wrap md:flex-col gap-x-5 gap-y-1.5 text-sm text-slate-700 dark:text-slate-300">${links}</div>
-        </div>
-        <div class="space-y-3">
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Connect</p>
-          <div class="flex flex-wrap gap-2.5">${social}</div>
-        </div>
-      </div>
-      <div class="pt-6 border-t border-slate-200 dark:border-slate-800 text-sm text-slate-500 dark:text-slate-400">
-        &copy; ${new Date().getFullYear()} ${nameStr}. All rights reserved.
-      </div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
+      <span>&copy; ${new Date().getFullYear()} ${nameStr}. All rights reserved.</span>
+      <a href="#hero-section" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Back to top <i class="fa-solid fa-arrow-up text-xs"></i></a>
     </div>
   `;
   footerContainer.classList.remove('hidden');
@@ -586,9 +561,7 @@ function renderPortfolio(data) {
     const langCardsHtml = data.languages.map(lang => `
       <div class="glass-panel p-4 rounded-xl interactive-card flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-500">
-            <i class="fa-solid fa-language text-base"></i>
-          </div>
+          <span class="mono w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center text-xs font-medium text-cyan-500">${escapeHTML(String(lang.language || '').slice(0, 2).toUpperCase())}</span>
           <span class="font-bold text-slate-900 dark:text-white text-base">${escapeHTML(lang.language)}</span>
         </div>
         ${lang.fluency ? `
@@ -623,37 +596,11 @@ function renderPortfolio(data) {
   const profiles = data.basics?.profiles;
 
   if (email || (Array.isArray(profiles) && profiles.length > 0)) {
-    let emailHtml = '';
-    if (email) {
-      emailHtml = `
-        <a href="mailto:${escapeHTML(email)}" class="group flex items-center gap-4 p-5 rounded-xl glass-panel interactive-card hover:border-cyan-500/50">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 group-hover:bg-cyan-500/20 text-cyan-500 flex items-center justify-center transition-colors">
-            <i class="fa-regular fa-envelope text-xl"></i>
-          </div>
-          <div class="overflow-hidden">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-0.5">Email</span>
-            <span class="text-sm sm:text-base font-medium text-slate-900 dark:text-white group-hover:text-cyan-500 transition-colors break-all">${escapeHTML(email)}</span>
-          </div>
-        </a>
-      `;
-    }
-
-    let profilesCardHtml = '';
-    if (Array.isArray(profiles) && profiles.length > 0) {
-      profilesCardHtml = `
-        <div class="p-5 rounded-xl glass-panel interactive-card space-y-3">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Social & Code</span>
-          <div class="flex flex-wrap gap-2.5">
-            ${profiles.map(p => `
-              <a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-cyan-500 hover:text-cyan-500 transition-all">
-                <i class="${escapeHTML(p.icon || 'fa-solid fa-arrow-up-right-from-square')} text-sm"></i>
-                <span>${escapeHTML(p.network || p.username || 'Link')}</span>
-              </a>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
+    const socialLinks = Array.isArray(profiles) ? profiles.map(p => `
+      <a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-cyan-500 hover:text-cyan-500 hover:-translate-y-0.5 transition-all">
+        <i class="${escapeHTML(p.icon || 'fa-solid fa-arrow-up-right-from-square')} text-sm"></i>
+        <span>${escapeHTML(p.network || p.username || 'Link')}</span>
+      </a>`).join('') : '';
 
     contactSection.innerHTML = `
       <div class="space-y-6">
@@ -663,9 +610,11 @@ function renderPortfolio(data) {
             <span>Get in Touch</span>
           </h2>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          ${emailHtml}
-          ${profilesCardHtml}
+        <div class="glass-panel rounded-2xl p-6 sm:p-10 text-center space-y-6">
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Let's talk.</p>
+          <p class="text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Have a question, an idea or an opportunity? Send me an email or find me on any of these.</p>
+          ${email ? `<a href="mailto:${escapeHTML(email)}" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm sm:text-base font-semibold bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/45 hover:-translate-y-0.5 transition-all break-all"><i class="fa-regular fa-envelope"></i><span>${escapeHTML(email)}</span></a>` : ''}
+          <div class="flex flex-wrap justify-center gap-2.5">${socialLinks}</div>
         </div>
       </div>
     `;

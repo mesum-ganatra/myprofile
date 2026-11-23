@@ -56,8 +56,6 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover {
 }
 
 .glass-panel {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -105,20 +103,18 @@ html:not(.dark) .interactive-card:hover {
 /* Ambient Ambient Background Lights */
 .ambient-glow-cyan {
   position: absolute;
-  filter: blur(100px);
   opacity: 0.22;
   pointer-events: none;
   border-radius: 9999px;
-  background: radial-gradient(circle, #ff4d2e 0%, transparent 70%);
+  background: radial-gradient(closest-side, #ff4d2e 0%, transparent 100%);
 }
 
 .ambient-glow-purple {
   position: absolute;
-  filter: blur(120px);
   opacity: 0.18;
   pointer-events: none;
   border-radius: 9999px;
-  background: radial-gradient(circle, #ff9a2e 0%, transparent 70%);
+  background: radial-gradient(closest-side, #ff9a2e 0%, transparent 100%);
 }
 
 html:not(.dark) .ambient-glow-cyan {
@@ -311,8 +307,7 @@ html:not(.dark) .timeline-item::before {
   width: 22rem;
   height: 22rem;
   border-radius: 9999px;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 77, 46, 0.45), rgba(99, 102, 241, 0.25) 55%, transparent 72%);
-  filter: blur(60px);
+  background: radial-gradient(closest-side, rgba(255, 77, 46, 0.5), rgba(255, 154, 46, 0.22) 55%, transparent 100%);
   opacity: 0.55;
   pointer-events: none;
   animation: orb-float 9s ease-in-out infinite;
@@ -327,8 +322,8 @@ html:not(.dark) .hero-orb { opacity: 0.3; }
 
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .reveal.is-visible {
@@ -359,18 +354,16 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 77, 46, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 77, 46, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(255, 77, 46, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 77, 46, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 15%, transparent 72%);
-  mask-image: radial-gradient(ellipse at 50% 0%, #000 15%, transparent 72%);
 }
 html:not(.dark) body::before { opacity: 0.55; }
 
 /* cursor glow + scroll progress (created by assets/fx.js) */
 #cursor-glow {
   position: fixed; left: 0; top: 0; width: 420px; height: 420px; border-radius: 9999px;
-  pointer-events: none; z-index: -1; opacity: 0; transition: opacity 0.4s ease;
+  pointer-events: none; z-index: -1; opacity: 0; transition: opacity 0.4s ease; will-change: transform;
   background: radial-gradient(circle, rgba(255, 77, 46, 0.16), rgba(255, 154, 46, 0.06) 45%, transparent 68%);
 }
 #scroll-progress {
@@ -406,7 +399,7 @@ html:not(.dark) header.glass-nav { border-color: rgba(0, 0, 0, 0.08) !important;
 
 /* hero */
 .hero-orb {
-  background: radial-gradient(circle at 30% 30%, rgba(255, 77, 46, 0.55), rgba(255, 154, 46, 0.3) 55%, transparent 72%);
+  background: radial-gradient(closest-side, rgba(255, 77, 46, 0.5), rgba(255, 154, 46, 0.22) 55%, transparent 100%);
 }
 .caret {
   display: inline-block; width: 0.6ch; height: 1.1em; margin-left: 2px; vertical-align: -0.15em;
@@ -481,3 +474,12 @@ html:not(.dark) header.glass-nav { border-color: rgba(0, 0, 0, 0.08) !important;
   header.glass-nav a:first-child { font-size: 1.05rem; }
   header.glass-nav .h-16 { gap: 8px; }
 }
+
+/* back to top button */
+#to-top {
+  position: fixed; right: 18px; bottom: 20px; z-index: 80; width: 44px; height: 44px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 77, 46, 0.45); cursor: pointer;
+  color: #fff; background: linear-gradient(135deg, #ff4d2e, #ff9a2e); box-shadow: 0 10px 24px -8px rgba(255, 77, 46, 0.7);
+  opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease;
+}
+#to-top.show { opacity: 1; transform: none; pointer-events: auto; }

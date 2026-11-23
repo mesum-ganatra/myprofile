@@ -62,4 +62,12 @@
       toggle.parentNode.insertBefore(c, toggle);
     }
   })();
+
+  // Back-to-top button (appears after scrolling down)
+  var top = document.createElement('button');
+  top.id = 'to-top'; top.type = 'button'; top.setAttribute('aria-label', 'Back to top');
+  top.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+  top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+  document.body.appendChild(top);
+  window.addEventListener('scroll', function () { top.classList.toggle('show', window.scrollY > 700); }, { passive: true });
 })();
