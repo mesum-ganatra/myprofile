@@ -586,6 +586,8 @@ function renderPortfolio(data) {
 
   // Projects and Blog links (added after the portfolio sections)
   activeNavItems.push({ label: 'Projects', href: 'projects.html' });
+  activeNavItems.push({ label: 'Resume', href: 'resume.html' });
+  activeNavItems.push({ label: 'Coding', href: 'coding.html' });
   activeNavItems.push({ label: 'Blog', href: '/blog' });
 
   // Render navigation links dynamically based on populated sections

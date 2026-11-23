@@ -54,9 +54,11 @@
     });
   }
   var onProjects = /^\/projects/.test(location.pathname);
-  var onBlog = !onProjects;
+  var onResume = /^\/resume/.test(location.pathname);
+  var onCoding = /^\/coding/.test(location.pathname);
+  var onBlog = !onProjects && !onResume && !onCoding;
   // Minimal nav until resume.json loads (or if it fails)
-  renderNav([{ label: 'Home', href: '/' }, { label: 'Projects', href: '/projects.html', active: onProjects }, { label: 'Blog', href: '/blog', active: onBlog }]);
+  renderNav([{ label: 'Home', href: '/' }, { label: 'Projects', href: '/projects.html', active: onProjects }, { label: 'Resume', href: '/resume.html', active: onResume }, { label: 'Coding', href: '/coding.html', active: onCoding }, { label: 'Blog', href: '/blog', active: onBlog }]);
 
   fetch('/resume.json').then(function (r) { return r.json(); }).then(function (data) {
     var nonEmpty = function (v) { return Array.isArray(v) ? v.length > 0 : !!v; };
@@ -68,6 +70,8 @@
     if (nonEmpty(data.languages)) items.push({ label: 'Languages', href: '/#languages-section' });
     if (data.basics && (data.basics.email || nonEmpty(data.basics.profiles))) items.push({ label: 'Contact', href: '/#contact-section' });
     items.push({ label: 'Projects', href: '/projects.html', active: onProjects });
+    items.push({ label: 'Resume', href: '/resume.html', active: onResume });
+    items.push({ label: 'Coding', href: '/coding.html', active: onCoding });
     items.push({ label: 'Blog', href: '/blog', active: onBlog });
     renderNav(items);
 
