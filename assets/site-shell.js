@@ -53,8 +53,10 @@
       mobile.appendChild(m);
     });
   }
+  var onProjects = /^\/projects/.test(location.pathname);
+  var onBlog = !onProjects;
   // Minimal nav until resume.json loads (or if it fails)
-  renderNav([{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog', active: true }]);
+  renderNav([{ label: 'Home', href: '/' }, { label: 'Projects', href: '/projects.html', active: onProjects }, { label: 'Blog', href: '/blog', active: onBlog }]);
 
   fetch('/resume.json').then(function (r) { return r.json(); }).then(function (data) {
     var nonEmpty = function (v) { return Array.isArray(v) ? v.length > 0 : !!v; };
@@ -65,7 +67,8 @@
     if (nonEmpty(data.certificates)) items.push({ label: 'Certificates', href: '/#certificates-section' });
     if (nonEmpty(data.languages)) items.push({ label: 'Languages', href: '/#languages-section' });
     if (data.basics && (data.basics.email || nonEmpty(data.basics.profiles))) items.push({ label: 'Contact', href: '/#contact-section' });
-    items.push({ label: 'Blog', href: '/blog', active: true });
+    items.push({ label: 'Projects', href: '/projects.html', active: onProjects });
+    items.push({ label: 'Blog', href: '/blog', active: onBlog });
     renderNav(items);
 
     var name = data.basics && data.basics.name;
