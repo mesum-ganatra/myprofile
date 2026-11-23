@@ -89,41 +89,147 @@ function initMobileMenu() {
   });
 }
 
-// Print Handler
-function initPrintButtons() {
-  const printBtns = document.querySelectorAll('#nav-print-btn, .print-btn-trigger');
-  printBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      window.print();
-    });
-  });
-}
-
-// Render dynamic navigation links
-function renderNavigation(activeNavItems) {
+// Navigation: a short fixed list of pages plus a Contact button
+function renderNavigation() {
   const desktopNavContainer = document.getElementById('desktop-nav-links');
   const mobileNavContainer = document.getElementById('mobile-nav-links');
-
   if (!desktopNavContainer || !mobileNavContainer) return;
 
+  const items = [
+    { label: 'Home', href: '#hero-section', active: true },
+    { label: 'Projects', href: '/projects.html' },
+    { label: 'Resume', href: '/resume.html' },
+    { label: 'Coding', href: '/coding.html' },
+    { label: 'Blog', href: '/blog' }
+  ];
   desktopNavContainer.innerHTML = '';
   mobileNavContainer.innerHTML = '';
 
-  activeNavItems.forEach(item => {
-    // Desktop link
+  items.forEach(item => {
+    const cls = item.active ? ' text-cyan-500 dark:text-cyan-400' : '';
     const desktopLink = document.createElement('a');
     desktopLink.href = item.href;
-    desktopLink.className = 'px-3 py-1.5 rounded-md hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-all';
+    desktopLink.className = 'px-3 py-1.5 rounded-md hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-all' + cls;
     desktopLink.textContent = item.label;
     desktopNavContainer.appendChild(desktopLink);
 
-    // Mobile link
     const mobileLink = document.createElement('a');
     mobileLink.href = item.href;
-    mobileLink.className = 'px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors';
+    mobileLink.className = 'px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors' + cls;
     mobileLink.textContent = item.label;
     mobileNavContainer.appendChild(mobileLink);
   });
+
+  const dContact = document.createElement('a');
+  dContact.href = '#contact-section';
+  dContact.className = 'ml-2 px-4 py-1.5 rounded-lg text-white font-semibold bg-gradient-to-r from-cyan-500 to-teal-500 shadow-md shadow-cyan-500/20 hover:opacity-95 transition-all';
+  dContact.textContent = 'Contact';
+  desktopNavContainer.appendChild(dContact);
+
+  const mContact = document.createElement('a');
+  mContact.href = '#contact-section';
+  mContact.className = 'mt-1 px-3 py-2 rounded-lg text-center text-white font-semibold bg-gradient-to-r from-cyan-500 to-teal-500';
+  mContact.textContent = 'Contact';
+  mobileNavContainer.appendChild(mContact);
+}
+
+// Footer: brand, page links, social icons
+function renderFooter(data) {
+  const footerContainer = document.getElementById('footer-container');
+  if (!footerContainer) return;
+  const b = data.basics || {};
+  const nameStr = escapeHTML(b.name || 'Portfolio');
+  const profiles = Array.isArray(b.profiles) ? b.profiles : [];
+  const social = profiles.map(p => `
+    <a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(p.network || 'Social')}" title="${escapeHTML(p.network || '')}" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 border border-slate-300/50 dark:border-slate-700/60 hover:text-cyan-500 dark:hover:text-cyan-400 hover:border-cyan-500/60 hover:-translate-y-0.5 transition-all">
+      <i class="${escapeHTML(p.icon || 'fa-solid fa-link')} text-sm"></i>
+    </a>`).join('');
+  const links = [['Home', '/'], ['Projects', '/projects.html'], ['Resume', '/resume.html'], ['Coding', '/coding.html'], ['Blog', '/blog']]
+    .map(([l, h]) => `<a href="${h}" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">${l}</a>`).join('');
+
+  footerContainer.innerHTML = `
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="space-y-2">
+          <p class="text-lg font-bold text-slate-900 dark:text-white">${nameStr}</p>
+          ${b.label ? `<p class="text-sm text-slate-500 dark:text-slate-400">${escapeHTML(b.label)}${b.location?.region ? ' &middot; ' + escapeHTML(b.location.region) : ''}</p>` : ''}
+          ${b.email ? `<a href="mailto:${escapeHTML(b.email)}" class="text-sm text-cyan-600 dark:text-cyan-400 hover:underline break-all">${escapeHTML(b.email)}</a>` : ''}
+        </div>
+        <div class="space-y-2">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pages</p>
+          <div class="flex flex-wrap md:flex-col gap-x-5 gap-y-1.5 text-sm text-slate-700 dark:text-slate-300">${links}</div>
+        </div>
+        <div class="space-y-3">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Connect</p>
+          <div class="flex flex-wrap gap-2.5">${social}</div>
+        </div>
+      </div>
+      <div class="pt-6 border-t border-slate-200 dark:border-slate-800 text-sm text-slate-500 dark:text-slate-400">
+        &copy; ${new Date().getFullYear()} ${nameStr}. All rights reserved.
+      </div>
+    </div>
+  `;
+  footerContainer.classList.remove('hidden');
+}
+
+// Featured projects preview (first 3 from projects.json)
+function renderFeaturedProjects() {
+  const section = document.getElementById('projects-section');
+  if (!section) return;
+  fetch('projects.json').then(r => r.ok ? r.json() : Promise.reject()).then(d => {
+    const list = Array.isArray(d.projects) ? d.projects.slice(0, 3) : [];
+    if (!list.length) return;
+    section.innerHTML = `
+      <div class="space-y-6">
+        <div class="flex items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+            <span class="w-2.5 h-6 rounded-full bg-cyan-500 inline-block"></span><span>Featured Projects</span>
+          </h2>
+          <a href="/projects.html" class="text-sm font-semibold text-cyan-600 dark:text-cyan-400 hover:underline whitespace-nowrap">View all <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+        <div class="proj-list">
+          ${list.map((p, i) => `
+            <a href="/projects.html?p=${encodeURIComponent(p.slug)}" class="proj-row">
+              <span class="proj-num">${String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 class="proj-name text-slate-900 dark:text-white">${escapeHTML(p.name)}</h3>
+                <p class="proj-sum text-slate-600 dark:text-slate-300">${escapeHTML(p.summary)}</p>
+                <div class="proj-tags">${(p.tech || []).slice(0, 4).map(t => `<span>${escapeHTML(t)}</span>`).join('')}</div>
+              </div>
+              ${p.image ? `<img class="proj-thumb" loading="lazy" alt="Screenshot of ${escapeHTML(p.name)}" src="${escapeHTML(p.image)}" />` : '<span></span>'}
+              <i class="fa-solid fa-arrow-up-right proj-arrow" aria-hidden="true"></i>
+            </a>`).join('')}
+        </div>
+      </div>`;
+    section.classList.remove('hidden');
+    initReveal();
+  }).catch(() => {});
+}
+
+// Fade sections in as they scroll into view
+function initReveal() {
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const els = document.querySelectorAll('main > section:not(#hero-section):not(.hidden):not([data-reveal]), #footer-container:not(.hidden):not([data-reveal])');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  els.forEach(el => { el.dataset.reveal = '1'; el.classList.add('reveal'); io.observe(el); });
+}
+
+// Typing animation for the hero line (static text if the visitor prefers reduced motion)
+function startTyping(el, phrases) {
+  if (!el || !phrases.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = phrases[0]; return; }
+  let i = 0, j = 0, deleting = false;
+  (function tick() {
+    const word = phrases[i];
+    el.textContent = word.slice(0, j);
+    let delay = deleting ? 35 : 70;
+    if (!deleting && j === word.length) { deleting = true; delay = 1600; }
+    else if (deleting && j === 0) { deleting = false; i = (i + 1) % phrases.length; delay = 400; }
+    else { j += deleting ? -1 : 1; }
+    setTimeout(tick, delay);
+  })();
 }
 
 // Main Portfolio Rendering Function
@@ -185,26 +291,45 @@ function renderPortfolio(data) {
       `;
     }
 
+    const heroSocial = Array.isArray(profiles) ? profiles.map(p => `
+      <a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(p.network || 'Profile')}" title="${escapeHTML(p.network || '')}" class="w-11 h-11 rounded-xl flex items-center justify-center glass-panel interactive-card text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:border-cyan-500/60">
+        <i class="${escapeHTML(p.icon || 'fa-solid fa-link')} text-base"></i>
+      </a>`).join('') : '';
+
     heroSection.innerHTML = `
-      <div class="flex flex-col gap-6 max-w-3xl">
-        <div class="flex flex-wrap items-center gap-3">
-          ${availabilityHtml}
-          ${locationHtml}
-        </div>
+      <div class="relative">
+        <div class="hero-orb" aria-hidden="true"></div>
+        <div class="relative">
+          <div class="flex flex-col gap-7 max-w-3xl">
+            <div class="flex flex-wrap items-center gap-3">
+              ${availabilityHtml}
+              ${locationHtml}
+            </div>
 
-        <div class="space-y-3">
-          ${label ? `<p class="text-sm font-semibold tracking-wider uppercase text-cyan-600 dark:text-cyan-400">${escapeHTML(label)}</p>` : ''}
-          ${name ? `<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white">${escapeHTML(name)}</h1>` : ''}
-        </div>
+            <div class="space-y-4">
+              <p class="mono text-sm text-cyan-500 dark:text-cyan-400">// hello, world</p>
+              ${name ? `<h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.02] gradient-text-primary">${escapeHTML(name)}</h1>` : ''}
+              <p class="mono text-base sm:text-lg text-slate-700 dark:text-slate-200 min-h-[1.8em]"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+            </div>
 
-        ${headline ? `<p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-normal">${escapeHTML(headline)}</p>` : ''}
+            ${headline ? `<p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">${escapeHTML(headline)}</p>` : ''}
 
-        <div class="hero-action-buttons flex flex-wrap items-center gap-3 pt-2">
-          ${contactBtnHtml}
-          ${profilesHtml}
+            <div class="hero-action-buttons flex flex-wrap items-center gap-3">
+              <a href="/projects.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/45 hover:-translate-y-0.5 transition-all">
+                <i class="fa-solid fa-layer-group"></i><span>View Projects</span>
+              </a>
+              <a href="/resume/Muhammad-Mesum-Resume.pdf" download class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold glass-panel interactive-card text-slate-800 dark:text-slate-100 hover:border-cyan-500/60">
+                <i class="fa-solid fa-download text-cyan-500"></i><span>Download CV</span>
+              </a>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">${heroSocial}</div>
+          </div>
+
         </div>
       </div>
     `;
+    startTyping(document.getElementById('typed'), Array.isArray(data.basics.typing) && data.basics.typing.length ? data.basics.typing : [label || name]);
     heroSection.classList.remove('hidden');
   }
 
@@ -548,53 +673,10 @@ function renderPortfolio(data) {
     activeNavItems.push({ label: 'Contact', href: '#contact-section' });
   }
 
-  // Footer Rendering
-  if (footerContainer) {
-    const currentYear = new Date().getFullYear();
-    const nameStr = data.basics?.name ? escapeHTML(data.basics.name) : 'Portfolio';
-
-    let footerProfilesHtml = '';
-    if (Array.isArray(profiles) && profiles.length > 0) {
-      footerProfilesHtml = `
-        <div class="flex items-center gap-3">
-          ${profiles.map(p => `
-            <a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(p.network || 'Social')}" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/60 transition-colors">
-              <i class="${escapeHTML(p.icon || 'fa-solid fa-link')} text-sm"></i>
-            </a>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    footerContainer.innerHTML = `
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-          <span>&copy; ${currentYear} ${nameStr}. All rights reserved.</span>
-        </div>
-
-        <div class="flex items-center gap-4">
-          ${footerProfilesHtml}
-          <button type="button" class="print-btn-trigger inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200/70 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300/50 dark:border-slate-700 transition-colors" title="Print this resume">
-            <i class="fa-solid fa-print"></i>
-            <span>Print to PDF</span>
-          </button>
-        </div>
-      </div>
-    `;
-    footerContainer.classList.remove('hidden');
-  }
-
-  // Projects and Blog links (added after the portfolio sections)
-  activeNavItems.push({ label: 'Projects', href: 'projects.html' });
-  activeNavItems.push({ label: 'Resume', href: 'resume.html' });
-  activeNavItems.push({ label: 'Coding', href: 'coding.html' });
-  activeNavItems.push({ label: 'Blog', href: '/blog' });
-
-  // Render navigation links dynamically based on populated sections
-  renderNavigation(activeNavItems);
-
-  // Initialize print triggers
-  initPrintButtons();
+  renderFooter(data);
+  renderNavigation();
+  renderFeaturedProjects();
+  initReveal();
 }
 
 // Show error UI with instructions

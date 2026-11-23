@@ -4,6 +4,7 @@
     "label": "BSCS Student",
     "headline": "I study full-time and am trying to become a Cyber Security Aspirant.",
     "summary": "Computer Science Student based in Karachi, Pakistan.",
+    "typing": ["BSCS student at GU Tech", "Cyber security aspirant", "Learning Python, C, C++ and JavaScript"],
     "location": {
       "country": "Pakistan",
       "countryCode": "PK",
@@ -16,7 +17,7 @@
       {
         "network": "LinkedIn",
         "username": "Muhammad Mesum",
-        "url": "https:/linkedin.com/in/muhammad-mesum-7a14b9438",
+        "url": "https://linkedin.com/in/muhammad-mesum-7a14b9438",
         "icon": "fa-brands fa-linkedin-in"
       },
       {
@@ -24,12 +25,24 @@
         "username": "mesum-ganatra",
         "url": "https://github.com/mesum-ganatra",
         "icon": "fa-brands fa-github"
+      },
+      {
+        "network": "Instagram",
+        "username": "mesum_ganatra",
+        "url": "https://www.instagram.com/mesum_ganatra",
+        "icon": "fa-brands fa-instagram"
+      },
+      {
+        "network": "Facebook",
+        "username": "Muhammad Mesum",
+        "url": "https://www.facebook.com/share/1CTjcpVHdY/",
+        "icon": "fa-brands fa-facebook-f"
       }
     ]
   },
   "about": {
     "intro": [
-      "I have completed O Level's and A Level's. Currently pursuing BS Computer Science degree in Gu Tech. I'm building strong foundation in programming, with particular interest in Design Thinking and using technolgy to solve real-world problems."
+      "I have completed my O Levels and A Levels and am currently pursuing a BS in Computer Science at GU Tech. I'm building a strong foundation in programming, with a particular interest in Design Thinking and using technology to solve real-world problems."
     ],
     "strengths": [
       "Strong interest in learning and improving"
@@ -40,7 +53,9 @@
       "category": "Languages",
       "items": [
         "Python",
-        "C"       
+        "C",
+        "C++",
+        "JavaScript"
       ]
     }
   ],
@@ -76,7 +91,7 @@
 
      {
       "institution": "Cambridge Assessment International Education (CAIE)",
-      "area": "Genersl Science",
+      "area": "General Science",
       "studyType": "O Levels",
       "startDate": "2021",
       "endDate": "2023"

@@ -20,7 +20,7 @@
   <!-- Google Fonts (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome 6 Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,6 +28,7 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    // NOTE: the Tailwind names 'cyan' and 'teal' are remapped to the site's orange (Ember) accent colours.
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -36,6 +37,8 @@
             sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
           },
           colors: {
+            cyan: {50:'#fff3ef',100:'#ffe3da',200:'#ffc6b5',300:'#ffa58c',400:'#ff7a52',500:'#ff4d2e',600:'#e63a1c',700:'#bf2f16',800:'#992816',900:'#7a2417',950:'#430f08'},
+            teal: {50:'#fffaeb',100:'#fff1c6',200:'#ffe08a',300:'#ffc94d',400:'#ffb04d',500:'#ff9a2e',600:'#e87d12',700:'#c25e0c',800:'#9b4a10',900:'#7c3d11',950:'#451e06'},
             slateBg: '#090d16',
             slateCard: '#0f172a',
             cyanGlow: '#06b6d4',
@@ -63,9 +66,6 @@
       
       <!-- Brand Logo / Name Anchor -->
       <a href="#hero-section" id="nav-brand" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 group">
-        <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-teal-400 flex items-center justify-center text-white text-sm font-extrabold shadow-sm group-hover:shadow-cyan-500/40 transition-all">
-          <i class="fa-solid fa-code text-xs"></i>
-        </span>
         <span id="nav-brand-text" class="group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">Portfolio</span>
       </a>
 
@@ -78,11 +78,6 @@
 
       <!-- Action Utilities: Theme Toggle & Mobile Menu Button -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Quick Print Action in Nav (Desktop) -->
-        <button id="nav-print-btn" type="button" aria-label="Print to PDF" title="Print to PDF" class="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition-all text-sm">
-          <i class="fa-solid fa-print"></i>
-        </button>
-
         <!-- Light / Dark Mode Toggle Button -->
         <button id="theme-toggle" type="button" aria-label="Toggle Theme" class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition-colors border border-slate-300/60 dark:border-slate-700/60">
           <i id="theme-toggle-icon" class="fa-solid fa-moon text-sm"></i>
@@ -129,6 +124,9 @@
     <!-- About Section -->
     <section id="about-section" class="hidden scroll-mt-24"></section>
 
+    <!-- Featured Projects Section -->
+    <section id="projects-section" class="hidden scroll-mt-24"></section>
+
     <!-- Education Section -->
     <section id="education-section" class="hidden scroll-mt-24"></section>
 
@@ -151,5 +149,6 @@
 
   <!-- Script for Dynamic Logic -->
   <script src="app.js"></script>
+  <script src="/assets/fx.js" defer></script>
 </body>
 </html>

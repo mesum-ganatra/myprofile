@@ -10,11 +10,22 @@
         "Store teams have roles (owner, manager, inventory, support, content) plus custom roles. Orders are managed on a drag-and-drop board, with analytics and an audit log. Security includes two-step verification with an authenticator app, recovery codes and sign-in rate limits.",
         "The admin area is at /admin on the live demo."
       ],
-      "tech": ["Next.js", "Tailwind CSS", "Express", "TypeScript", "MongoDB", "Vercel"],
+      "tech": [
+        "Next.js",
+        "Tailwind CSS",
+        "Express",
+        "TypeScript",
+        "MongoDB",
+        "Vercel"
+      ],
       "liveUrl": "https://ecomm-web-hazel.vercel.app",
       "codes": [
-        { "label": "Ecommerce Website (GitHub)", "url": "https://github.com/mesum-ganatra/Ecommerce-website" }
-      ]
+        {
+          "label": "Ecommerce Website (GitHub)",
+          "url": "https://github.com/mesum-ganatra/Ecommerce-website"
+        }
+      ],
+      "image": "/assets/projects/ecommerce.jpg"
     },
     {
       "slug": "gutech-lms",
@@ -25,11 +36,22 @@
         "Other features include announcements, classroom chat, complaint submission with admin responses, and private course resources with file type and size checks.",
         "Access is role-based: the API enforces roles and course membership, and row-level security in the database protects records. Sign-in uses email and password with password recovery and a forced password change on first login."
       ],
-      "tech": ["React", "TypeScript", "Vite", "Node.js", "Express", "Supabase"],
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Node.js",
+        "Express",
+        "Supabase"
+      ],
       "liveUrl": "https://gutech-lms-frontend.vercel.app/",
       "codes": [
-        { "label": "GUTECH Internal LMS (GitHub)", "url": "https://github.com/mesum-ganatra/gutech-internal-lms" }
-      ]
+        {
+          "label": "GUTECH Internal LMS (GitHub)",
+          "url": "https://github.com/mesum-ganatra/gutech-internal-lms"
+        }
+      ],
+      "image": "/assets/projects/gutech-lms.jpg"
     },
     {
       "slug": "mindanchor",
@@ -40,11 +62,21 @@
         "Accounts are nickname-only (or Guest) and all data stays in the browser, with no server, email or analytics. The app has five tabs: Today (mood check-in and weekly time saved), Focus & Tasks (a task slicer that breaks work into four 15-minute steps, plus focus sprints), Calm (breathing, 5-4-3-2-1 grounding and a music player), Guard (overnight lockout, time caps and a pause before scrolling) and Me & Privacy (data download or wipe).",
         "A Quick Exit button and a Get Real Help button, with Pakistan helplines first, appear on every screen. It installs on a phone like an app (PWA), and the site also has a user guide, an evidence page backed by the team's own interviews and survey, and a project blog."
       ],
-      "tech": ["HTML", "CSS", "JavaScript", "PWA", "Vercel"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "PWA",
+        "Vercel"
+      ],
       "liveUrl": "https://mindanchor-mu.vercel.app",
       "codes": [
-        { "label": "MindAnchor (GitHub)", "url": "https://github.com/MuhammadSufyan-cyber/mindanchor" }
-      ]
+        {
+          "label": "MindAnchor (GitHub)",
+          "url": "https://github.com/MuhammadSufyan-cyber/mindanchor"
+        }
+      ],
+      "image": "/assets/projects/mindanchor.jpg"
     }
   ]
 }

@@ -27,14 +27,16 @@
       root.innerHTML = heading('Projects') + '<p class="mt-4 text-slate-500 dark:text-slate-400">No projects yet.</p>';
       return;
     }
-    root.innerHTML = '<div class="space-y-2">' + heading('Projects') +
+    root.innerHTML = '<div class="space-y-2"><p class="mono text-sm text-cyan-500 dark:text-cyan-400">// selected work</p>' + heading('Projects') +
       '<p class="text-slate-600 dark:text-slate-400">Things I have built. Click a project for details.</p></div>' +
-      '<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">' + projects.map(function (p) {
-        return '<a href="/projects.html?p=' + encodeURIComponent(p.slug) + '" class="glass-panel interactive-card p-5 sm:p-6 rounded-xl flex flex-col gap-3 hover:border-cyan-500/50">' +
-          '<h2 class="text-xl font-bold text-slate-900 dark:text-white">' + esc(p.name) + '</h2>' +
-          '<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">' + esc(p.summary) + '</p>' +
-          (p.tech && p.tech.length ? '<div class="flex flex-wrap gap-2 mt-auto pt-1">' + chips(p.tech) + '</div>' : '') +
-          '</a>';
+      '<div class="proj-list mt-8">' + projects.map(function (p, i) {
+        return '<a href="/projects.html?p=' + encodeURIComponent(p.slug) + '" class="proj-row">' +
+          '<span class="proj-num">' + String(i + 1).padStart(2, '0') + '</span>' +
+          '<div><h2 class="proj-name text-slate-900 dark:text-white">' + esc(p.name) + '</h2>' +
+          '<p class="proj-sum text-slate-600 dark:text-slate-300">' + esc(p.summary) + '</p>' +
+          (p.tech && p.tech.length ? '<div class="proj-tags">' + p.tech.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
+          '</div>' + (p.image ? '<img class="proj-thumb" loading="lazy" alt="Screenshot of ' + esc(p.name) + '" src="' + esc(p.image) + '" />' : '<span></span>') +
+          '<i class="fa-solid fa-arrow-up-right proj-arrow" aria-hidden="true"></i></a>';
       }).join('') + '</div>';
   }
 
@@ -63,6 +65,7 @@
       '<i class="fa-solid fa-arrow-left text-xs"></i> All projects</a>' +
       '<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">' +
       '<article class="lg:col-span-2 space-y-5">' + heading(p.name) +
+      (p.image ? '<img class="proj-cover" alt="Screenshot of ' + esc(p.name) + '" src="' + esc(p.image) + '" />' : '') +
       (p.tech && p.tech.length ? '<div class="flex flex-wrap gap-2">' + chips(p.tech) + '</div>' : '') +
       paras.map(function (t) { return '<p class="text-slate-600 dark:text-slate-300 leading-relaxed">' + esc(t) + '</p>'; }).join('') +
       '</article>' +

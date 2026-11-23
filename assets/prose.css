@@ -1,7 +1,7 @@
 /* Post typography. Used by the public post page, the admin editor and the preview. */
 .prose-post { --pp-text:#1e293b; --pp-muted:#64748b; --pp-border:#cbd5e1; --pp-code-bg:#f1f5f9; --pp-pre-bg:#0f172a; --pp-pre-text:#e2e8f0; --pp-link:#0891b2; --pp-quote:#0891b2;
   color: var(--pp-text); font-size: 1.0625rem; line-height: 1.8; overflow-wrap: anywhere; }
-html.dark .prose-post { --pp-text:#e2e8f0; --pp-muted:#94a3b8; --pp-border:#334155; --pp-code-bg:#1e293b; --pp-pre-bg:#0b1220; --pp-pre-text:#e2e8f0; --pp-link:#22d3ee; --pp-quote:#22d3ee; }
+html.dark .prose-post { --pp-text:#e2e8f0; --pp-muted:#94a3b8; --pp-border:#334155; --pp-code-bg:#1e293b; --pp-pre-bg:#0b1220; --pp-pre-text:#e2e8f0; --pp-link:#ff7a52; --pp-quote:#ff7a52; }
 
 .prose-post > * + * { margin-top: 1.1em; }
 .prose-post h1, .prose-post h2, .prose-post h3, .prose-post h4 { line-height: 1.3; font-weight: 700; letter-spacing: -0.01em; margin-top: 1.8em; }
@@ -40,13 +40,13 @@ html.dark .prose-post { --pp-text:#e2e8f0; --pp-muted:#94a3b8; --pp-border:#3341
 .prose-post ul[data-type="taskList"] li { display: flex; align-items: flex-start; gap: .55rem; }
 .prose-post ul[data-type="taskList"] li > label { margin-top: .35rem; user-select: none; }
 .prose-post ul[data-type="taskList"] li > div { flex: 1; }
-.prose-post ul[data-type="taskList"] input[type="checkbox"] { accent-color: #06b6d4; width: 1rem; height: 1rem; }
+.prose-post ul[data-type="taskList"] input[type="checkbox"] { accent-color: #ff4d2e; width: 1rem; height: 1rem; }
 /* YouTube */
 .prose-post div[data-youtube-video] { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: .75rem; overflow: hidden; background: #000; }
 .prose-post div[data-youtube-video] iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 /* editor-only */
 .prose-post.ProseMirror { outline: none; min-height: 22rem; }
-.prose-post .ProseMirror-selectednode { outline: 2px solid #06b6d4; }
+.prose-post .ProseMirror-selectednode { outline: 2px solid #ff4d2e; }
 .prose-post p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: var(--pp-muted); float: left; height: 0; pointer-events: none; }
-.prose-post .selectedCell::after { content: ''; position: absolute; inset: 0; background: rgba(6,182,212,.15); pointer-events: none; }
+.prose-post .selectedCell::after { content: ''; position: absolute; inset: 0; background: rgba(255,77,46,.15); pointer-events: none; }
 .prose-post td, .prose-post th { position: relative; }
